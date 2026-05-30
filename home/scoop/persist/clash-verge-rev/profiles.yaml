@@ -1,6 +1,6 @@
 # Profiles Config for Clash Verge
 
-current: RDRAuhin84dF
+current: R8gZjmES6YI5
 items:
 - uid: Merge
   type: merge
@@ -47,13 +47,14 @@ items:
   - name: 🚀 节点选择
     now: 🚀 手动切换
   - name: 🚀 手动切换
-    now: 🇯🇵JP_2|2.1MB/s
+    now: 🇰🇷KR_1|1.8MB/s
   - name: ♻️ 自动选择
     now: sg|ab66|puddincat07@Telegram
-  updated: 1778499453
+  updated: 1782964544
   option:
     with_proxy: false
     self_proxy: false
+    update_interval: 60
     allow_auto_update: true
     merge: m17flY2wkJGN
     script: s1KfOCTWvLUn
@@ -98,7 +99,7 @@ items:
     now: gb|1593|puddincat07@Telegram
   - name: Proxy
     now: 🇺🇸 美国节点
-  updated: 1778499455
+  updated: 1782964545
   option:
     with_proxy: false
     self_proxy: false
@@ -153,7 +154,7 @@ items:
     now: 官网地址https://kelayun.notepin.co
   - name: Proxy
     now: 🇰🇷 韩国节点
-  updated: 1778499458
+  updated: 1782964544
   option:
     with_proxy: false
     self_proxy: false
@@ -164,50 +165,6 @@ items:
     rules: rknzgllLIBI5
     proxies: pKE9L0oCTEsP
     groups: gJYIY1zOyjZs
-- uid: m3kStCZES4OO
-  type: merge
-  name: null
-  file: m3kStCZES4OO.yaml
-  updated: 1763605415
-- uid: sxIcjTLuDoVI
-  type: script
-  name: null
-  file: sxIcjTLuDoVI.js
-  updated: 1763605415
-- uid: r7LimxXOI78b
-  type: rules
-  name: null
-  file: r7LimxXOI78b.yaml
-  updated: 1763605415
-- uid: pooOIH02hHEr
-  type: proxies
-  name: null
-  file: pooOIH02hHEr.yaml
-  updated: 1763605415
-- uid: gam20kDdzk1L
-  type: groups
-  name: null
-  file: gam20kDdzk1L.yaml
-  updated: 1763605415
-- uid: Riq04bVZSqC1
-  type: remote
-  name: 11clash
-  file: Riq04bVZSqC1.yaml
-  desc: ''
-  url: https://gh-proxy.org/https://raw.githubusercontent.com/ggborr/FREEE-VPN/refs/heads/main/2clash
-  selected:
-  - name: 🚀 节点选择
-    now: 关注https://github.com/ggborr/FREEE-VPN
-  updated: 1778499454
-  option:
-    with_proxy: false
-    self_proxy: false
-    allow_auto_update: true
-    merge: m3kStCZES4OO
-    script: sxIcjTLuDoVI
-    rules: r7LimxXOI78b
-    proxies: pooOIH02hHEr
-    groups: gam20kDdzk1L
 - uid: moAUGs2e9TRa
   type: merge
   name: null
@@ -244,7 +201,7 @@ items:
     now: 🇯🇵JP日本 1.2MB/s
   - name: 🚀 手动切换
     now: 🇸🇬SG_3|1.7MB/s
-  updated: 1778499454
+  updated: 1782917437
   option:
     with_proxy: false
     self_proxy: false
@@ -288,7 +245,7 @@ items:
   selected:
   - name: 🚀 节点选择
     now: 韩国(yudou789.top 玉豆免费节点)_1
-  updated: 1778499454
+  updated: 1782917438
   option:
     with_proxy: false
     self_proxy: false
@@ -332,7 +289,7 @@ items:
   selected:
   - name: Proxy
     now: 🇩🇪 德国节点
-  updated: 1778499454
+  updated: 1782917439
   option:
     with_proxy: false
     self_proxy: false
@@ -371,18 +328,23 @@ items:
   type: remote
   name: 魔戒.net
   file: RDRAuhin84dF.yaml
+  desc: ''
   url: https://msub.xn--m7r52rosihxm.com/api/v1/client/subscribe?token=f84215e4a2f08b44eff91ee612d40f54
   selected:
   - name: 节点选择
     now: 美国LA-优化2-GPT
+  - name: 🚀 手动切换
+    now: 🇺🇸US_1|2.4MB/s
   extra:
-    upload: 10436149884
-    download: 66164944538
+    upload: 16463409150
+    download: 105151853501
     total: 139586437120
     expire: 0
-  updated: 1778499454
+  updated: 1782964546
   option:
-    update_interval: 1440
+    with_proxy: false
+    self_proxy: false
+    update_interval: 60
     allow_auto_update: true
     merge: mHX3vk3nPwBP
     script: sOHhiSm1bUo9

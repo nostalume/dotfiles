@@ -1,183 +1,121 @@
 $script:Config = @{
-	EnabledRoles = @("base", "dev", "backup", "utils")
-	Roles        = @{
-		base   = @{
-			Scoop  = @("7zip", "git", "starship", "rage", "neovim", "shed" ,"aria2", "bat", "fd", "fzf",
-				"ripgrep", "tree-sitter", "scoop-search", "eget", "just", "zed",
-				"Maple-Mono", "Maple-Mono-NF", "Maple-Mono-NF-CN", "clash-verge-rev")
-			Winget = @("Microsoft.PowerToys", "Microsoft.PowerShell", "MartiCliment.UniGetUI", "GitHub.cli")
-		}
-		daily  = @{
-			Winget = @(
-				@{ Name = "Vivaldi.Vivaldi"; Flags = @("-i") }
-				@{ Name = "Valve.Steam"; Flags = @("-i") }
-				@{ Name = "EpicGames.EpicGamesLauncher"; Flags = @("-i") }
-				@{ Name = "Tencent.QQ"; Flags = @("-i") }
-			)
-		}
-		# ... other roles remain the same
-		utils  = @{ Winget = @( @{Name = "Anki.Anki"; Flags = @("-i") }, @{Name = "DigitalScholar.Zotero"; Flags = @("-i") } ) }
-		dev    = @{ Scoop = @("aqua", "pixi", "hugo-extended"); Winget = @("Rustlang.Rustup") }
-		backup = @{ Scoop = @("restic", "resticprofile", "openlist") }
-	}
+    EnabledRoles = @("base", "dev", "backup", "utils")
+    Roles        = @{
+        base   = @{
+            Scoop  = @(
+                "7zip", "git", "starship", "rage", "neovim", "shed", "aria2", "bat", "fd", "fzf",
+                "ripgrep", "tree-sitter", "scoop-search", "eget", "just", "zed",
+                "Maple-Mono", "Maple-Mono-NF", "Maple-Mono-NF-CN", "clash-verge-rev"
+            )
+            Winget = @("Microsoft.PowerToys", "Microsoft.PowerShell", "MartiCliment.UniGetUI", "GitHub.cli")
+        }
+        daily  = @{
+            Winget = @(
+                @{ Name = "Vivaldi.Vivaldi"; Interactive = $true }
+                @{ Name = "Valve.Steam"; Interactive = $true }
+                @{ Name = "EpicGames.EpicGamesLauncher"; Interactive = $true }
+                @{ Name = "Tencent.QQ"; Interactive = $true }
+            )
+        }
+        utils  = @{
+            Winget = @(
+                @{ Name = "Anki.Anki"; Interactive = $true }
+                @{ Name = "DigitalScholar.Zotero"; Interactive = $true }
+            )
+        }
+        dev    = @{ Scoop = @("aqua", "pixi", "hugo-extended"); Winget = @("Rustlang.Rustup") }
+        backup = @{ Scoop = @("restic", "resticprofile", "openlist") }
+    }
 }
 
-function Get-ProviderInfo
-{
-	return @{ Name = "PackageInstall"; Type = "Trigger" }
+function Get-ProviderInfo {
+    return @{ Name = "PackageInstall"; Type = "Trigger" }
 }
 
-# PS 5.1 compatible normalization (Replaced ?? operator)
-function Resolve-Package
-{
-	param([object]$pkg)
-	if ($pkg -is [string])
-	{
-		return @{ Name = $pkg; Flags = @() }
-	}
-	$flags = if ($null -ne $pkg.Flags)
-	{ $pkg.Flags
-	} else
-	{ @()
-	}
-	return @{ Name = $pkg.Name; Flags = $flags }
+function Resolve-Package {
+    param([Parameter(Mandatory)] [object]$Package)
+
+    if ($Package -is [string]) {
+        return @{ Name = $Package; Flags = @(); Interactive = $false }
+    }
+
+    $flags = if ($null -ne $Package.Flags) { @($Package.Flags) } else { @() }
+    return @{
+        Name        = $Package.Name
+        Flags       = $flags
+        Interactive = [bool]$Package.Interactive -or ($flags -contains "-i")
+    }
 }
 
-# Improved execution with specific error capturing
-function Invoke-Package
-{
-	param(
-		[string]$provider,
-		[string]$role,
-		[hashtable]$pkg,
-		[string[]]$baseArgs,
-		[bool]$dryRun
-	)
+function Invoke-Trigger {
+    [CmdletBinding(SupportsShouldProcess = $true)]
+    param(
+        [string[]]$Roles = $script:Config.EnabledRoles,
+        [switch]$Force,
+        [switch]$IncludeInteractive
+    )
 
-	$allArgs = $baseArgs + $pkg.Flags + $pkg.Name
-	$status = "Success"
+    $results = @()
+    $errors = @()
 
-	if (-not $dryRun)
-	{
-		try
-		{
-			# Use ArgumentList to prevent string injection/parsing issues in PS 5.1
-			Start-Process -FilePath $provider -ArgumentList $allArgs -Wait -NoNewWindow -ErrorAction Stop
-			if ($LASTEXITCODE -ne 0)
-			{ $status = "Failed"
-			}
-		} catch
-		{
-			$status = "Failed"
-		}
-	} else
-	{
-		$status = "DryRun"
-	}
+    foreach ($role in $Roles) {
+        if (-not $script:Config.Roles.ContainsKey($role)) {
+            $errors += [pscustomobject]@{ Role = $role; Status = "Error"; Reason = "UnknownRole" }
+            continue
+        }
 
-	return [PSCustomObject]@{
-		Provider = $provider
-		Role     = $role
-		Package  = $pkg.Name
-		Flags    = $pkg.Flags -join " "
-		Status   = $status
-	}
-}
+        $roleDef = $script:Config.Roles[$role]
+        foreach ($providerName in @("Scoop", "Winget")) {
+            foreach ($raw in @($roleDef[$providerName])) {
+                if ($null -eq $raw) { continue }
 
-function Invoke-Trigger
-{
-	param($Option)
+                $provider = $providerName.ToLowerInvariant()
+                $pkg = Resolve-Package $raw
 
-	if (-not $Option)
-	{
-		$Option = @{}
-	}
-	# PS 5.1 compatible default values
-	$roles   = if ($Option.ContainsKey('Roles'))
-	{ $Option.Roles
-	} else
-	{ $script:Config.EnabledRoles
-	}
-	$dryRun  = if ($Option.ContainsKey('DryRun'))
-	{ $Option.DryRun
-	} else
-	{ $false
-	}
-	$force   = if ($Option.ContainsKey('Force'))
-	{ $Option.Force
-	} else
-	{ $false
-	}
+                $args = if ($provider -eq "scoop") { @("install") } else { @("install", "--accept-source-agreements", "--accept-package-agreements") }
+                if ($Force) { $args += "--force" }
+                if ($provider -eq "winget" -and -not $pkg.Interactive) { $args += "--silent" }
+                $args += @($pkg.Flags) + $pkg.Name
 
-	$scoopBase = @("install")
-	if ($force)
-	{ $scoopBase += "--force"
-	}
+                if ($pkg.Interactive -and -not $IncludeInteractive) {
+                    $results += [pscustomobject]@{ Provider = $provider; Role = $role; Package = $pkg.Name; Status = "Skipped"; Reason = "InteractivePackage" }
+                    continue
+                }
 
-	$wingetBase = @("install", "--accept-source-agreements", "--accept-package-agreements")
-	if ($force)
-	{ $wingetBase += "--force"
-	}
+                if (-not $PSCmdlet.ShouldProcess("$provider package $($pkg.Name)", "Install")) {
+                    $results += [pscustomobject]@{ Provider = $provider; Role = $role; Package = $pkg.Name; Status = "DryRun"; Reason = "WhatIf" }
+                    continue
+                }
 
-	$results = New-Object System.Collections.Generic.List[object]
-	$errors  = New-Object System.Collections.Generic.List[string]
+                Write-Host "Install package: $($pkg.Name)"
+                try {
+                    & $provider @args
+                    $exitCode = $LASTEXITCODE
+                    $status = if ($exitCode -eq 0) { "Success" } else { "Failed" }
+                    $result = [pscustomobject]@{ Provider = $provider; Role = $role; Package = $pkg.Name; Status = $status; ExitCode = $exitCode }
+                }
+                catch {
+                    $result = [pscustomobject]@{ Provider = $provider; Role = $role; Package = $pkg.Name; Status = "Failed"; Reason = $_.Exception.Message; ExitCode = 1 }
+                }
 
-	foreach ($role in $roles)
-	{
-		if (-not $script:Config.Roles.ContainsKey($role))
-		{
-			$errors.Add("Unknown role: '$role'")
-			continue
-		}
+                $results += $result
+                if ($result.Status -eq "Failed") { $errors += $result }
+            }
+        }
+    }
 
-		$roleDef = $script:Config.Roles[$role]
+    $status = if ($errors.Count -gt 0 -and $results.Count -eq 0) { "Error" }
+        elseif ($errors.Count -gt 0) { "PartialFailure" }
+        elseif ($results.Count -gt 0 -and @($results | Where-Object Status -eq "DryRun").Count -eq $results.Count) { "DryRun" }
+        elseif ($results.Count -gt 0 -and @($results | Where-Object Status -eq "Skipped").Count -eq $results.Count) { "Skipped" }
+        else { "Success" }
 
-		# Generic processor for both providers
-		foreach ($prov in @("Scoop", "Winget"))
-		{
-			if ($null -eq $roleDef[$prov])
-			{ continue
-			}
-
-			foreach ($raw in $roleDef[$prov])
-			{
-				$pkg = Resolve-Package $raw
-				$cmd = $prov.ToLower()
-
-				# Logic: Winget needs --silent UNLESS -i is present
-				$currentBase = if ($cmd -eq "winget")
-				{
-					if ($pkg.Flags -contains "-i")
-					{ $wingetBase
-					} else
-					{ $wingetBase + "--silent"
-					}
-				} else
-				{
-					$scoopBase
-				}
-
-				Write-Host "Install package: $($pkg["Name"])"
-				$res = Invoke-Package $cmd $role $pkg $currentBase $dryRun
-				$results.Add($res)
-				if ($res.Status -eq "Failed")
-				{ $errors.Add("[$cmd]: $($pkg.Name) [$role]")
-				}
-			}
-		}
-	}
-
-	$failedCount = ($results | Where-Object { $_.Status -eq "Failed" }).Count
-	return @{
-		Status  = if ($failedCount -eq 0)
-		{ "Success"
-		} else
-		{ "PartialFailure"
-		}
-		Message = "Processed $($results.Count) package(s). Succeeded: $($results.Count - $failedCount) Failed: $failedCount"
-		Results = $results
-		Errors  = $errors
-	}
+    return @{
+        Status  = $status
+        Message = "Processed $($results.Count) package(s). Failed: $($errors.Count)"
+        Results = $results
+        Errors  = $errors
+    }
 }
 
 Export-ModuleMember -Function "Get-ProviderInfo", "Invoke-Trigger"

@@ -9,7 +9,7 @@ registries:
 #   path: registry.yaml
   - name: mirror
     type: github_content
-    repo_owner: lvyuemeng
+    repo_owner: nostalume
     repo_name: aqua-registry-mirror
     # ref: semver(">= 3.0.0") # ref is optional
     path: registry.yaml
