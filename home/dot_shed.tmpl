@@ -1,3 +1,7 @@
+{{/* Load data.toml to access encrypted data */}}
+{{- $secret := includeTemplate "data" . | fromToml -}}
+{{- $github_token := $secret.github.token.aqua -}}
+
 if exists $HOME/.cargo/bin
 	path+ $HOME/.cargo/bin
 	set CARGO_HOME $HOME/.cargo
@@ -67,3 +71,5 @@ end
 if os windows
 	alias e explorer.exe
 end
+
+set GITHUB_TOKEN {{ quote $github_token }}

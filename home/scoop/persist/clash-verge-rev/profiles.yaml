@@ -45,12 +45,12 @@ items:
   url: https://gh-proxy.org/raw.githubusercontent.com/shaoyouvip/free/main/mihomo.yaml
   selected:
   - name: 🚀 节点选择
-    now: 🚀 手动切换
+    now: 🇺🇲 美国节点
   - name: 🚀 手动切换
-    now: 🇰🇷KR_1|1.8MB/s
+    now: 🇺🇸US_8|1.7MB/s
   - name: ♻️ 自动选择
     now: sg|ab66|puddincat07@Telegram
-  updated: 1782964544
+  updated: 1783323226
   option:
     with_proxy: false
     self_proxy: false
@@ -99,7 +99,7 @@ items:
     now: gb|1593|puddincat07@Telegram
   - name: Proxy
     now: 🇺🇸 美国节点
-  updated: 1782964545
+  updated: 1783323227
   option:
     with_proxy: false
     self_proxy: false
@@ -154,7 +154,7 @@ items:
     now: 官网地址https://kelayun.notepin.co
   - name: Proxy
     now: 🇰🇷 韩国节点
-  updated: 1782964544
+  updated: 1783323227
   option:
     with_proxy: false
     self_proxy: false
@@ -201,7 +201,7 @@ items:
     now: 🇯🇵JP日本 1.2MB/s
   - name: 🚀 手动切换
     now: 🇸🇬SG_3|1.7MB/s
-  updated: 1782917437
+  updated: 1783323227
   option:
     with_proxy: false
     self_proxy: false
@@ -245,7 +245,7 @@ items:
   selected:
   - name: 🚀 节点选择
     now: 韩国(yudou789.top 玉豆免费节点)_1
-  updated: 1782917438
+  updated: 1783323226
   option:
     with_proxy: false
     self_proxy: false
@@ -289,7 +289,7 @@ items:
   selected:
   - name: Proxy
     now: 🇩🇪 德国节点
-  updated: 1782917439
+  updated: 1783294156
   option:
     with_proxy: false
     self_proxy: false
@@ -336,11 +336,11 @@ items:
   - name: 🚀 手动切换
     now: 🇺🇸US_1|2.4MB/s
   extra:
-    upload: 16463409150
-    download: 105151853501
+    upload: 16652912281
+    download: 108433938123
     total: 139586437120
     expire: 0
-  updated: 1782964546
+  updated: 1783323227
   option:
     with_proxy: false
     self_proxy: false
