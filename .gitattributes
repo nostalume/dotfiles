@@ -1,5 +1,3 @@
-**config* linguist-language=ini linguist-detectable
-
 *.json linguist-language=json linguist-detectable
 *.json.tmpl linguist-language=json linguist-detectable
 *.toml linguist-language=toml linguist-detectable
@@ -8,14 +6,12 @@
 *.yaml.tmpl linguist-language=yml linguist-detectable
 *.yml linguist-language=yml linguist-detectable
 *.yml.tmpl linguist-language=yml linguist-detectable
-
+*.sh.tmpl linguist-language=sh linguist-detectable
+*.ps1.tmpl linguist-language=pwsh linguist-detectable
 *.lua.tmpl linguist-language=lua linguist-detectable
 
+**config* linguist-language=ini linguist-detectable
 *chezmoiignore* linguist-language=gitignore linguist-detectable
 *chezmoiremove* linguist-language=gitignore linguist-detectable
 *gitignore* linguist-language=gitignore linguist-detectable
 *rgignore* linguist-language=gitignore linguist-detectable
-
-*.ps1.tmpl linguist-language=pwsh linguist-detectable
-
-*.sh.tmpl linguist-language=sh linguist-detectable
