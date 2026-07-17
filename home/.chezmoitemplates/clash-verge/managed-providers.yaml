@@ -1,0 +1,54 @@
+# One local Mihomo profile; Mihomo owns provider downloads and refreshes.
+proxy-providers:
+  Free:
+    type: http
+    url: https://gh-proxy.org/raw.githubusercontent.com/shaoyouvip/free/main/mihomo.yaml
+    path: ./proxy_provider/Free.yaml
+    interval: 3600
+  BestClash:
+    type: http
+    url: https://gh-proxy.org/raw.githubusercontent.com/PuddinCat/BestClash/refs/heads/main/proxies.yaml
+    path: ./proxy_provider/BestClash.yaml
+    interval: 3600
+  Jsnzkpg:
+    type: http
+    url: https://gh-proxy.org/https://raw.githubusercontent.com/Jsnzkpg/Jsnzkpg/Jsnzkpg/Jsnzkpg
+    path: ./proxy_provider/Jsnzkpg.yaml
+    interval: 3600
+  Fly:
+    type: http
+    url: https://gh-proxy.org//https://raw.githubusercontent.com/ts-sf/fly/main/clash
+    path: ./proxy_provider/Fly.yaml
+    interval: 3600
+  FreeNodes:
+    type: http
+    url: https://gh-proxy.org/raw.githubusercontent.com/Barabama/FreeNodes/main/nodes/yudou66.yaml
+    path: ./proxy_provider/FreeNodes.yaml
+    interval: 3600
+  FreeSub:
+    type: http
+    url: https://gh-proxy.org/https://raw.githubusercontent.com/ovmvo/FreeSub/refs/heads/main/sub/permanent/mihomo.yaml
+    path: ./proxy_provider/FreeSub.yaml
+    interval: 3600
+  魔戒:
+    type: http
+    url: https://msub.xn--m7r52rosihxm.com/api/v1/client/subscribe?token=f84215e4a2f08b44eff91ee612d40f54
+    path: ./proxy_provider/魔戒.yaml
+    interval: 3600
+proxy-groups:
+- name: PROXY
+  type: select
+  proxies:
+  - DIRECT
+  use:
+  - Free
+  - BestClash
+  - Jsnzkpg
+  - Fly
+  - FreeNodes
+  - FreeSub
+  - 魔戒
+rules:
+- MATCH,PROXY
+profile:
+  store-selected: true

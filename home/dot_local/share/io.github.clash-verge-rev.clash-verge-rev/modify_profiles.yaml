@@ -1,0 +1,2 @@
+{{/* chezmoi:modify-template */}}
+{{ includeTemplate "clash-verge/modify_profiles.yaml.tmpl" . }}

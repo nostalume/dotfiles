@@ -1,0 +1,20 @@
+{{- $manifest := dict -}}
+{{- if .chezmoi.stdin -}}
+{{- $manifest = fromYaml .chezmoi.stdin -}}
+{{- end -}}
+{{- $uid := "managed-providers" -}}
+{{- $items := get $manifest "items" | default (list) -}}
+{{- $found := false -}}
+{{- range $item := $items -}}
+{{- if eq (get $item "uid") $uid -}}
+{{- $_ := set $item "type" "local" -}}
+{{- $_ := set $item "name" "Managed Providers" -}}
+{{- $_ := set $item "file" "managed-providers.yaml" -}}
+{{- $found = true -}}
+{{- end -}}
+{{- end -}}
+{{- if not $found -}}
+{{- $items = append $items (dict "uid" $uid "type" "local" "name" "Managed Providers" "file" "managed-providers.yaml") -}}
+{{- end -}}
+{{- $_ := set $manifest "items" $items -}}
+{{- $manifest | toYaml -}}
