@@ -63,7 +63,7 @@
 				}
 			},
 			"settings": {
-				"exportPdf": "onSave"
+				"exportPdf": "onType"
 			}
 		}
 	}

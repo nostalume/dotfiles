@@ -76,9 +76,13 @@
   // ========== Terminal ==========
   "terminal.integrated.stickyScroll.enabled": true,
   "terminal.integrated.cursorBlinking": true,
+{{- if eq .chezmoi.os "windows" }}
   "terminal.integrated.defaultProfile.windows": {{ .shell | quote }},
+{{- else if eq .chezmoi.os "darwin" }}
   "terminal.integrated.defaultProfile.osx": {{ .shell | quote }},
+{{- else }}
   "terminal.integrated.defaultProfile.linux": {{ .shell | quote }},
+{{- end }}
 
   // ========== Notebooks & Markdown ==========
   "notebook.formatOnSave.enabled": true,

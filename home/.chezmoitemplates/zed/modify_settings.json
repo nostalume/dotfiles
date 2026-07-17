@@ -1,0 +1,15 @@
+{{- /* chezmoi:modify-template */ -}}
+{{- /* Load templates */ -}}
+{{- $base := includeTemplate "zed/base_settings.json" . | fromJson -}}
+{{- $ai := includeTemplate "zed/ai_settings.json" . | fromJson -}}
+
+{{- /* Parse existing config from stdin */ -}}
+{{- $existing := dict -}}
+{{- if .chezmoi.stdin }}
+  {{- $existing = fromJsonc .chezmoi.stdin -}}
+{{- end }}
+
+{{- /* Merge order: existing last so machine-specific fields (wsl_connections, agent_servers) take precedence */ -}}
+{{- $merged := merge $ai (merge $base $existing) -}}
+
+{{ $merged | toPrettyJson }}
