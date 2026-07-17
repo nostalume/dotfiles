@@ -55,11 +55,11 @@ if have bat and have fzf
 end
 
 if have rg and have fzf
-	set FZF_CTRL_R_OPTS --preview 'echo {}' --preview-window down:3:hidden:wrap --bind 'ctrl-/:toggle-preview' --bind 'ctrl-y:execute-silent(echo -n {2..} | pbcopy)+abort' --color 'header:italic' --header 'Press CTRL-/ to toggle preview'
+	set FZF_CTRL_R_OPTS --preview 'echo {}' --preview-window down:3:hidden:wrap --bind 'ctrl-/:toggle-preview' --color 'header:italic' --header 'Press CTRL-/ to toggle preview'
 end
 
 if have fzf
-	set FZF_DEFAULT_OPTS --height 40% --layout=reverse --border sharp --margin=1 --padding=1 --info=inline-right --separator='─' --scrollbar='█' --prompt='❯ ' --pointer='▶' --marker='✓' --multi --cycle --bind='ctrl-space:toggle+down' --bind='ctrl-y:execute-silent(echo {+} | pbcopy)' --bind='ctrl-v:execute($EDITOR {})' --bind='ctrl-f:preview-page-down,ctrl-b:preview-page-up' --bind='tab:down,btab:up'
+	set FZF_DEFAULT_OPTS --height 40% --layout=reverse --border sharp --margin=1 --padding=1 --info=inline-right --separator='─' --scrollbar='█' --prompt='❯ ' --pointer='▶' --marker='✓' --multi --cycle --bind='ctrl-space:toggle+down' --bind='ctrl-v:execute($EDITOR {})' --bind='ctrl-f:preview-page-down,ctrl-b:preview-page-up' --bind='tab:down,btab:up'
 end
 
 # aqua mirror registry
@@ -67,6 +67,8 @@ if exists $HOME/aqua.yml or exists $HOME/aqua.yaml
 	set AQUA_POLICY_CONFIG $HOME/aqua-policy.yaml
 	set AQUA_GLOBAL_CONFIG $HOME/aqua.yaml
 end
+
+set RUSTIC_USE_PROFILE $HOME/.config/rustic/rustic.toml
 
 if os windows
 	alias e explorer.exe

@@ -24,7 +24,7 @@ $script:Config = @{
             )
         }
         dev    = @{ Scoop = @("aqua", "pixi", "hugo-extended"); Winget = @("Rustlang.Rustup") }
-        backup = @{ Scoop = @("restic", "resticprofile", "openlist") }
+        backup = @{ Scoop = @("rustic", "openlist") }
     }
 }
 

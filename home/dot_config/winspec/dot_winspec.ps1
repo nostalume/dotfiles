@@ -5,6 +5,12 @@
         "Registry"
         "Feature"
     )
+    Trigger = @("PackageInstall")
+    TriggerConfig = @{
+        PackageInstall = @{
+            Roles = @("base", "dev", "backup", "utils")
+        }
+    }
     Registry =
     @{
         Clipboard =

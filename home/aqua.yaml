@@ -9,12 +9,12 @@
 #   - all
 registries:
   - type: standard
-    ref: v4.530.0 # renovate: depName=aquaproj/aqua-registry
+    ref: v4.537.0 # renovate: depName=aquaproj/aqua-registry
   - name: mirror
     type: github_content
     repo_owner: nostalume
     repo_name: aqua-registry-mirror
-    ref: mirror-20260701
+    ref: mirror-20260714
     path: registry.yaml
 packages:
 - name: gesquive/git-user@v2.0.6
@@ -23,13 +23,13 @@ packages:
   registry: mirror
 # - name: oven-sh/bun@bun-v1.3.11
 # - name: nodejs/node@v25.8.1
-- name: denoland/deno@v2.9.1
+- name: denoland/deno@v2.9.2
   registry: mirror
-- name: astral-sh/uv@0.11.26
+- name: astral-sh/uv@0.11.28
   registry: mirror
-- name: golang/go@go1.26.4
+- name: golang/go@go1.26.5
   registry: mirror
 - name: berbicanes/apiark@v0.4.6
   registry: mirror
-- name: rvben/rumdl@v0.2.27
+- name: rvben/rumdl@v0.2.33
   registry: mirror
