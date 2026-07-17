@@ -1,7 +1,9 @@
 # key.txt.rage hash: {{ include "key.txt.rage" | sha256sum }}
 
+$ErrorActionPreference = "Stop"
 $Target = "$HOME/.config/chezmoi/key.txt"
 $Source = "{{ .chezmoi.sourceDir }}/key.txt.rage"
+$Temporary = "$Target.tmp"
 
 New-Item -ItemType Directory -Path (Split-Path $Target) -Force | Out-Null
 
@@ -11,4 +13,9 @@ if (-Not (Get-Command "rage" -ErrorAction SilentlyContinue)) {
 }
 
 Write-Host "Decrypting key.txt.rage..."
-& rage -d $Source -o $Target
+Remove-Item -Force -ErrorAction SilentlyContinue $Temporary
+& rage -d $Source -o $Temporary
+if ($LASTEXITCODE -ne 0) {
+    throw "rage decryption failed with exit code $LASTEXITCODE"
+}
+Move-Item -Force $Temporary $Target

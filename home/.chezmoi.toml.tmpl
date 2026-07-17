@@ -4,16 +4,14 @@
 
 {{- $pubkey := "age18jcln2kqlqwpfjhtp9dnxsq2dnd604m5akuv5kfnqt3kxyvcdu5qvytrtu" -}}
 {{- $shell      := "" -}}
+{{- $psShell    := "pwsh" -}}
 {{- $editor     := "" -}}
-{{- $pre        := "" -}}
 
 {{/* Shell detection */}}
 {{- if eq .chezmoi.os "windows" -}}
-  {{- if lookPath "pwsh" -}}{{- $shell = "pwsh" -}}{{- else -}}{{- $shell = "powershell" -}}{{- end -}}
-  {{- $pre = ".local/share/chezmoi/home/prepare/.prepare.ps1" -}}
+  {{- if lookPath "pwsh" -}}{{- $shell = "pwsh" -}}{{- else -}}{{- $shell = "powershell" -}}{{- $psShell = "powershell" -}}{{- end -}}
 {{- else -}}
   {{- if lookPath "fish" -}}{{- $shell = "fish" -}}{{- else -}}{{- $shell = "bash" -}}{{- end -}}
-  {{- $pre = ".local/share/chezmoi/home/prepare/.prepare.sh" -}}
 {{- end -}}
 
 {{/* Editor detection: zed > nvim > platform fallback */}}
@@ -33,6 +31,16 @@ encryption = "age"
   identity = "~/.config/chezmoi/key.txt"
   recipient = {{ $pubkey | quote }}
 
+{{ if eq .chezmoi.os "windows" }}
+[hooks.read-source-state.pre]
+  command = {{ $psShell | quote }}
+  args = ["-NoProfile", "-File", {{ joinPath .chezmoi.sourceDir "prepare" ".prepare.ps1" | quote }}]
+{{ else if eq .chezmoi.os "linux" }}
+[hooks.read-source-state.pre]
+  command = "bash"
+  args = [{{ joinPath .chezmoi.sourceDir "prepare" ".prepare.sh" | quote }}]
+{{ end }}
+
 [data]
 shell = {{ $shell | quote }}
 editor = {{ $editor | quote }}
@@ -43,9 +51,8 @@ olmail = "Nostalume@outlook.com"
 [cd]
 command = {{ $shell | quote }}
 
-# **pwsh** is required
 [interpreters.ps1]
-command = "pwsh"
+command = {{ $psShell | quote }}
 args = ["-NoLogo"]
 
 [completion]
@@ -67,7 +74,3 @@ command = {{ $editor | quote }}
 autoAdd = true # Add changes to the source state after any change
 autoCommit = false
 autoPush = false
-
-[hooks.read-source-state.pre]
-command = {{ $shell | quote }}
-args = {{ $pre | quote }}

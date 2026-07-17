@@ -11,21 +11,20 @@ prepare/
 .chezmoiscripts/windows/**/*
 {{ end }}
 
-# Windows paths (exclude on Unix)
-{{ if eq .chezmoi.os "windows" }}
-.font/
-.config/nvim/
-.config/fish/
-.config/nix/
+# Exclude Unix config paths
+{{ if ne .chezmoi.os "linux" }}
+dot_config/Code/
+dot_config/zed/
+dot_config/nix/
+dot_local/share/io.github.clash-verge-rev.clash-verge-rev/
 {{ end }}
 
-# Unix paths (exclude on Windows)
+# Exclude Windows config paths
 {{ if ne .chezmoi.os "windows" }}
 AppData/
 Documents/
-OneDrive/
-.config/scoop/
-.config/winget/
+readonly_OneDrive/
+dot_config/scoop/
+dot_wslconfig
 scoop/
-.wslconfig
 {{ end }}
