@@ -1,4 +1,4 @@
-{{/* Load data.toml to access encrypted data */}}
+{{/* Keep the existing repository password under the rustic config directory. */}}
 {{- $secret := includeTemplate "data" . | fromToml -}}
 {{- $pw := $secret.resticprofile.password -}}
 {{ $pw }}

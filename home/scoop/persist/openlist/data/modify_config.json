@@ -1,0 +1,9 @@
+{{/* chezmoi:modify-template */}}
+{{- $existing := dict -}}
+{{- $stdin := get .chezmoi "stdin" -}}
+{{- if $stdin }}{{ $existing = fromJson $stdin }}{{ end -}}
+{{- $database := get $existing "database" | default (dict) -}}
+{{- $_ := set $database "type" "sqlite3" -}}
+{{- $_ := set $database "db_file" (joinPath .chezmoi.homeDir "OpenList" "data.db") -}}
+{{- $_ := set $existing "database" $database -}}
+{{ $existing | toPrettyJson }}

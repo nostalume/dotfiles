@@ -1,0 +1,57 @@
+{{/* Render credentials and source paths with chezmoi; rustic receives no env substitutions. */}}
+{{- $secret := includeTemplate "data" . | fromToml -}}
+{{- $accessKeyID := $secret.S3.AWS_ACCESS_KEY_ID -}}
+{{- $secretAccessKey := $secret.S3.AWS_SECRET_ACCESS_KEY -}}
+{{- $passwordFile := joinPath .chezmoi.homeDir ".config" "rustic" ".rustic_pw" -}}
+{{- $libDb := env "LibDb" -}}
+{{- $depic := env "Depic" -}}
+{{- $affair := env "Affair" -}}
+{{- if or (eq $libDb "") (eq $depic "") (eq $affair "") -}}
+  {{- fail "LibDb, Depic, and Affair must be set before rendering rustic.toml" -}}
+{{- end -}}
+
+# OpenList runs a dedicated S3 listener at this local endpoint.
+# Credentials and variable-backed paths are resolved by chezmoi at render time.
+[repository]
+repository = "opendal:s3"
+password-file = {{ $passwordFile | quote }}
+
+[repository.options]
+access_key_id = {{ $accessKeyID | quote }}
+secret_access_key = {{ $secretAccessKey | quote }}
+bucket = "AliBackup"
+endpoint = "http://127.0.0.1:5246"
+region = "us-east-1"
+
+[backup]
+skip-if-unchanged = true
+
+[forget]
+keep-weekly = 4
+keep-monthly = 1
+prune = true
+
+[[backup.snapshots]]
+name = "lib"
+sources = [{{ $libDb | quote }}]
+tags = ["tag:LibDb"]
+
+[[backup.snapshots]]
+name = "depic"
+sources = [{{ $depic | quote }}]
+tags = ["tag:Depic"]
+
+[[backup.snapshots]]
+name = "affair"
+sources = [{{ $affair | quote }}]
+tags = ["tag:Affair"]
+
+{{- if eq .chezmoi.os "windows" }}
+{{- $vivaldi := joinPath .chezmoi.homeDir "AppData" "Local" "Vivaldi" "User Data" "Default" }}
+
+[[backup.snapshots]]
+name = "vivaldi"
+sources = [{{ $vivaldi | quote }}]
+tags = ["tag:Vivaldi"]
+globs = ["!*cache*", "!*Cache*"]
+{{- end }}
