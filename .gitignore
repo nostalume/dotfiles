@@ -1,0 +1,3 @@
+# Local agent plans and Markdown lint cache.
+/.hermes/
+/.rumdl_cache/

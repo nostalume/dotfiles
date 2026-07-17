@@ -28,13 +28,16 @@ encryption = "age"
     recipient = # Your public key from rage-keygen
 ```
 
-### Auto-decrypt on init
+### Decrypt during apply
 
 - [Windows](/home/.chezmoiscripts/windows/run_onchange_before_00-decrypt-home.ps1.tmpl)
-- [linux](/home/.chezmoiscripts/linux/run_onchange_before_00-decrypt-home.sh.tmpl)
+- [Linux](/home/.chezmoiscripts/linux/run_onchange_before_00-decrypt-home.sh.tmpl)
 
-It will use rage to decrypt the `key.txt.rage` into the expected path configured
-in `identity` field.
+These scripts decrypt `key.txt.rage` to the configured `identity` path when they
+change. Before chezmoi reads encrypted source state, `read-source-state.pre`
+ensures `rage`: Windows bootstraps Scoop plus `rage`; Linux bootstraps Nix plus
+`rage`; macOS remains an operator-provided prerequisite. The hook exits
+immediately when `rage` is already available and does not reconcile applications.
 
 ### Re-encrypt
 
@@ -81,26 +84,33 @@ Above script
 
 > Requires Home Encryption first.
 
-1. Create data in `.chezmoidata` (e.g., `toml` format) or any other path.
-2. Add to source and encrypt:
+The repository keeps its encrypted TOML input at
+`home/dot_config/encrypted_data.toml.age`. The `home/.chezmoitemplates/data`
+template decrypts and exposes it to leaf templates.
 
-```bash
-chezmoi add --encrypt [data path]
-```
-
-3. Create template in `.chezmoitemplates/(name)`:
-
-```text
-{{ joinPath .chezmoi.sourceDir "dot_config/encrypted_(name).toml.age" | include 
-| decrypt }}
-```
-
-4. Use in any template:
+Use it in a template:
 
 ```text
 {{- $secret := includeTemplate "path-to-your-data" . | fromToml -}}
 {{- $something := $secret.some-field -}}
 ```
+
+Do not render encrypted binary/state files through an ordinary template.
+OpenList stores its encrypted SQLite seed as
+`home/OpenList/create_encrypted_data.db`; chezmoi decrypts it only when creating
+a missing `~/OpenList/data.db` target.
+
+Capture current OpenList state only after stopping OpenList, using:
+
+```powershell
+chezmoi re-add --re-encrypt "$HOME\OpenList\data.db"
+```
+
+`re-add --re-encrypt` preserves the `create_encrypted_` source attribute. Do
+not invoke it in an apply hook or while SQLite WAL state is active. See
+[Runtime State](./runtime-state.md) for the complete capture and restore flow.
+
+macOS remains configuration-only: install `rage` before running chezmoi so encrypted source state can be read.
 
 ## Re-modify Encryption
 
