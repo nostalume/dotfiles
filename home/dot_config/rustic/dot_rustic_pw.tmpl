@@ -1,4 +1,4 @@
 {{/* Keep the existing repository password under the rustic config directory. */}}
 {{- $secret := includeTemplate "data" . | fromToml -}}
-{{- $pw := $secret.resticprofile.password -}}
+{{- $pw := $secret.rustic.password -}}
 {{ $pw }}

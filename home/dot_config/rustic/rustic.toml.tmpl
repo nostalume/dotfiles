@@ -1,7 +1,7 @@
 {{/* Render credentials and source paths with chezmoi; rustic receives no env substitutions. */}}
 {{- $secret := includeTemplate "data" . | fromToml -}}
-{{- $accessKeyID := $secret.S3.AWS_ACCESS_KEY_ID -}}
-{{- $secretAccessKey := $secret.S3.AWS_SECRET_ACCESS_KEY -}}
+{{- $accessKeyID := $secret.openlist.s3.AWS_ACCESS_KEY_ID -}}
+{{- $secretAccessKey := $secret.openlist.s3.AWS_SECRET_ACCESS_KEY -}}
 {{- $passwordFile := joinPath .chezmoi.homeDir ".config" "rustic" ".rustic_pw" -}}
 {{- $libDb := env "LibDb" -}}
 {{- $depic := env "Depic" -}}
