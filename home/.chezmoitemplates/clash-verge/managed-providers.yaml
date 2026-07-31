@@ -42,13 +42,13 @@ proxy-providers:
     interval: 3600
     override:
       additional-prefix: "FreeSub | "
-  魔戒:
+  Park:
     type: http
-    url: https://msub.xn--m7r52rosihxm.com/api/v1/client/subscribe?token=f84215e4a2f08b44eff91ee612d40f54
-    path: ./proxy_provider/魔戒.yaml
+    url: https://equaldcdn.com/use/unsafe/sub.php?t=eyJ1dWlkIjoiODQ5NkQ5NzYtMUU0NS00QTY1LTgzQzgtNTI5Q0VDOTAxOTM3Iiwic2VydmVyIjoiMTU0LjIxLjgxLjE0OCIsInBvcnQiOiI0NDMiLCJwdWJsaWNfa2V5IjoiTnJEbVFMVm95emxLNkxxelhldjYtcFNJSUt3em9wZnc1SzdsQnpzSksxQSIsInNob3J0X2lkIjoiZTBlNjI5ZDQzNGY3MWMwOSIsInNlcnZlcm5hbWUiOm51bGwsInRvdGFsIjoxMTgxMTE2MDA2NDAsImV4cGlyZSI6MTc4ODA4MTc1NH0&s=3c8dc7c426eb7410d48d3c20c7cbf5e5e2798bf1f5aff94b6c7a23cabc499a3f
+    path: ./proxy_provider/Park.yaml
     interval: 3600
     override:
-      additional-prefix: "魔戒 | "
+      additional-prefix: "Park | "
 proxy-groups:
 - name: 节点选择
   type: select
@@ -61,7 +61,7 @@ proxy-groups:
   - Fly
   - FreeNodes
   - FreeSub
-  - 魔戒
+  - Park
 rules:
 - GEOSITE,CN,DIRECT
 - GEOIP,CN,DIRECT,no-resolve

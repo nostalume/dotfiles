@@ -4,7 +4,7 @@ $script:Config = @{
         base   = @{
             Scoop  = @(
                 "7zip", "git", "starship", "rage", "neovim", "shed", "aria2", "bat", "fd", "fzf",
-                "ripgrep", "tree-sitter", "scoop-search", "eget", "just", "zed",
+                "ripgrep", "tree-sitter", "scoop-search", "eget", "just", "zed", "gsudo",
                 "Maple-Mono", "Maple-Mono-NF", "Maple-Mono-NF-CN", "clash-verge-rev"
             )
             Winget = @("Microsoft.PowerToys", "Microsoft.PowerShell", "MartiCliment.UniGetUI", "GitHub.cli")
@@ -17,14 +17,8 @@ $script:Config = @{
                 @{ Name = "Tencent.QQ"; Interactive = $true }
             )
         }
-        utils  = @{
-            Winget = @(
-                @{ Name = "Anki.Anki"; Interactive = $true }
-                @{ Name = "DigitalScholar.Zotero"; Interactive = $true }
-            )
-        }
         dev    = @{ Scoop = @("aqua", "pixi", "hugo-extended"); Winget = @("Rustlang.Rustup") }
-        backup = @{ Scoop = @("rustic", "openlist") }
+        backup = @{ Scoop = @("rustic", "openlist", "gopass") }
     }
 }
 
