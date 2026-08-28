@@ -22,6 +22,10 @@ secret_access_key = {{ $secretAccessKey | quote }}
 bucket = "AliBackup"
 endpoint = "http://127.0.0.1:5246"
 region = "us-east-1"
+# Aliyun Drive rejects concurrent callback downloads behind OpenList.  This is
+# an OpenDAL layer setting, so it must be a string; one connection keeps prune
+# and repack reads serial.
+connections = "1"
 
 [backup]
 skip-if-unchanged = true
