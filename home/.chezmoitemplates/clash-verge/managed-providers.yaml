@@ -14,27 +14,6 @@ proxy-providers:
     interval: 3600
     override:
       additional-prefix: "BestClash | "
-  Jsnzkpg:
-    type: http
-    url: https://gh-proxy.org/https://raw.githubusercontent.com/Jsnzkpg/Jsnzkpg/Jsnzkpg/Jsnzkpg
-    path: ./proxy_provider/Jsnzkpg.yaml
-    interval: 3600
-    override:
-      additional-prefix: "Jsnzkpg | "
-  Fly:
-    type: http
-    url: https://gh-proxy.org//https://raw.githubusercontent.com/ts-sf/fly/main/clash
-    path: ./proxy_provider/Fly.yaml
-    interval: 3600
-    override:
-      additional-prefix: "Fly | "
-  FreeNodes:
-    type: http
-    url: https://gh-proxy.org/raw.githubusercontent.com/Barabama/FreeNodes/main/nodes/yudou66.yaml
-    path: ./proxy_provider/FreeNodes.yaml
-    interval: 3600
-    override:
-      additional-prefix: "FreeNodes | "
   FreeSub:
     type: http
     url: https://gh-proxy.org/https://raw.githubusercontent.com/ovmvo/FreeSub/refs/heads/main/sub/permanent/mihomo.yaml
@@ -44,7 +23,7 @@ proxy-providers:
       additional-prefix: "FreeSub | "
   Park:
     type: http
-    url: https://equaldcdn.com/use/unsafe/sub.php?t=eyJ1dWlkIjoiODQ5NkQ5NzYtMUU0NS00QTY1LTgzQzgtNTI5Q0VDOTAxOTM3Iiwic2VydmVyIjoiMTU0LjIxLjgxLjE0OCIsInBvcnQiOiI0NDMiLCJwdWJsaWNfa2V5IjoiTnJEbVFMVm95emxLNkxxelhldjYtcFNJSUt3em9wZnc1SzdsQnpzSksxQSIsInNob3J0X2lkIjoiZTBlNjI5ZDQzNGY3MWMwOSIsInNlcnZlcm5hbWUiOm51bGwsInRvdGFsIjoxMTgxMTE2MDA2NDAsImV4cGlyZSI6MTc4ODA4MTc1NH0&s=3c8dc7c426eb7410d48d3c20c7cbf5e5e2798bf1f5aff94b6c7a23cabc499a3f
+    url: https://equaldcdn.com/use/unsafe/sub.php?t=eyJ1dWlkIjoiODQ5NkQ5NzYtMUU0NS00QTY1LTgzQzgtNTI5Q0VDOTAxOTM3Iiwic2VydmVyIjoiMTU0LjIxLjgxLjE0OCIsInBvcnQiOiI0NDMiLCJwdWJsaWNfa2V5IjoiTnJEbVFMVm95emxLNkxxelhldjYtcFNJSUt3em9wZnc1shdsQnpzSksxQSIsInNob3J0X2lkIjoiZTBlNjI5ZDQzNGY3MWMwOSIsInNlcnZlcm5hbWUiOm51bGwsInRvdGFsIjoxMTgxMTE2MDA2NDAsImV4cGlyZSI6MTc4ODA4MTc1NH0&s=3c8dc7c426eb7410d48d3c20c7cbf5e5e2798bf1f5aff94b6c7a23cabc499a3f
     path: ./proxy_provider/Park.yaml
     interval: 3600
     override:
