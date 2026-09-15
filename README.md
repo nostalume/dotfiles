@@ -14,6 +14,10 @@ Dotfiles managed with [chezmoi](https://www.chezmoi.io).
 
 `read-source-state.pre` is the minimal encryption prerequisite: it establishes Scoop/Nix only when `rage` is absent, then installs `rage` and exits. It does not reconcile applications. Once `rage` exists, `init`, `diff`, and `apply` have no bootstrap work.
 
+## FreeNodes
+
+Clash Provider [FreeNodes](https://gh-proxy.org/https://raw.githubusercontent.com/nostalume/FreeNodes/HEAD/nodes/merged.yaml) is a free choice.
+
 ### Windows
 
 ```powershell
