@@ -1,72 +1,51 @@
-if exists $HOME/.cargo/bin
-	path+ $HOME/.cargo/bin
-	set CARGO_HOME $HOME/.cargo
-	set RUSTUP_HOME $HOME/.rustup
-end
+path+ $HOME/.cargo/bin
+set CARGO_HOME $HOME/.cargo
+set RUSTUP_HOME $HOME/.rustup
 
-if exists $HOME/go/bin
-	path+ $HOME/go/bin
-	set GOPATH $HOME/go
-end
+path+ $HOME/go/bin
+set GOPATH $HOME/go
 
-if exists $HOME/.deno/bin
-	path+ $HOME/.deno/bin
-end
-
-if exists $HOME/.bun/bin
-	path+ $HOME/.bun/bin
-end
-
-if exists $HOME/.local/bin
-	path+ $HOME/.local/bin
-end
-
-if have nvim
-	set EDITOR nvim
-	set VISUAL nvim
-	set GIT_EDITOR nvim
-end
-
-if have starship
-	call starship init {shell}
-	set STARSHIP_CONFIG $HOME/.config/starship.toml
-end
-
-if have rg
-	alias grep rg
-end
-
-if have fd
-	alias find fd
-end
-
-if have fd and have fzf
-	set FZF_DEFAULT_COMMAND "fd --hidden --strip-cwd-prefix --exclude .git"
-	set FZF_CTRL_T_COMMAND $FZF_DEFAULT_COMMAND
-	set FZF_ALT_C_COMMAND "fd --type d --hidden --strip-cwd-prefix --exclude .git"
-end
-
-if have bat and have fzf
-	set FZF_CTRL_T_OPTS "--preview 'bat --color=always --style=numbers --line-range=:500 {}'"
-end
-
-if have rg and have fzf
-	set FZF_CTRL_R_OPTS --preview 'echo {}' --preview-window down:3:hidden:wrap --bind 'ctrl-/:toggle-preview' --color 'header:italic' --header 'Press CTRL-/ to toggle preview'
-end
-
-if have fzf
-	set FZF_DEFAULT_OPTS --height 40% --layout=reverse --border sharp --margin=1 --padding=1 --info=inline-right --separator='─' --scrollbar='█' --prompt='❯ ' --pointer='▶' --marker='✓' --multi --cycle --bind='ctrl-space:toggle+down' --bind='ctrl-v:execute($EDITOR {})' --bind='ctrl-f:preview-page-down,ctrl-b:preview-page-up' --bind='tab:down,btab:up'
-end
-
-# aqua mirror registry
-if exists $HOME/aqua.yml or exists $HOME/aqua.yaml
-	set AQUA_POLICY_CONFIG $HOME/aqua-policy.yaml
-	set AQUA_GLOBAL_CONFIG $HOME/aqua.yaml
-end
+path+ $HOME/.deno/bin
+path+ $HOME/.bun/bin
+path+ $HOME/.local/bin
 
 set RUSTIC_USE_PROFILE $HOME/.config/rustic/rustic.toml
 set UV_CONFIG_FILE $HOME/.config/uv/uv.toml
+set AQUA_POLICY_CONFIG $HOME/aqua-policy.yaml
+set AQUA_GLOBAL_CONFIG $HOME/aqua.yaml
+
+if have nvim
+    set EDITOR nvim
+    set VISUAL nvim
+    set GIT_EDITOR nvim
+end
+
+if have starship
+    call starship init {shell}
+    set STARSHIP_CONFIG $HOME/.config/starship.toml
+end
+
+alias grep rg
+alias find fd
+
+if have fzf
+    set FZF_DEFAULT_OPTS --height 40% --layout=reverse --border sharp --margin=1 --padding=1 --info=inline-right --separator='─' --scrollbar='█' --prompt='❯ ' --pointer='▶' --marker='✓' --multi --cycle --bind='ctrl-space:toggle+down' --bind='ctrl-v:execute($EDITOR {})' --bind='ctrl-f:preview-page-down,ctrl-b:preview-page-up' --bind='tab:down,btab:up'
+
+    if have fd
+        set FZF_DEFAULT_COMMAND "fd --hidden --strip-cwd-prefix --exclude .git"
+        set FZF_CTRL_T_COMMAND $FZF_DEFAULT_COMMAND
+        set FZF_ALT_C_COMMAND "fd --type d --hidden --strip-cwd-prefix --exclude .git"
+    end
+
+    if have bat
+        set FZF_CTRL_T_OPTS "--preview 'bat --color=always --style=numbers --line-range=:500 {}'"
+    end
+
+    if have rg
+        set FZF_CTRL_R_OPTS --preview 'echo {}' --preview-window down:3:hidden:wrap --bind 'ctrl-/:toggle-preview' --color 'header:italic' --header 'Press CTRL-/ to toggle preview'
+    end
+end
 
 if os windows
-	alias e explorer.exe
+    alias e explorer.exe
 end

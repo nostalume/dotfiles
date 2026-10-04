@@ -1,65 +1,50 @@
 function Clear-PSReadLineHistory {
-    Get-PSReadLineOption | Select-Object -expand HistorySavePath | Remove-Item
+    Remove-Item (Get-PSReadLineOption).HistorySavePath
 }
-
-# == ENVIRONMENT ==
 
 function Initialize-Env {
     if (Get-Command shed -ErrorAction SilentlyContinue) {
-        (& shed pwsh "$HOME\.shed") | Out-String | Invoke-Expression
+        $env = (& shed pwsh "$HOME\.shed" | Out-String).Trim()
+        if ($LASTEXITCODE -eq 0 -and $env) { Invoke-Expression $env }
     }
 }
 
-# == MODULES ==
-
 function Add-OwnModule {
-    param (
-        [Parameter(Mandatory = $true)]
-        [string]$moduleName,
-        [scriptblock]$Handler
-    )
+    param([Parameter(Mandatory=$true)][string]$moduleName, [switch]$Optional)
+    try { Import-Module $moduleName -ErrorAction Stop; return $true }
+    catch { if (-not $Optional) { Write-Warning "Failed to import ${moduleName}: $_" }; return $false }
+}
 
-    if (-not (Get-Module -ListAvailable -Name $moduleName)) {
-        Write-Host "Installing $moduleName..." -ForegroundColor Cyan
-        Install-Module -Name $moduleName -Force -Scope CurrentUser -AllowClobber -SkipPublisherCheck
+function Install-ProfileModules {
+    [CmdletBinding()]
+    param([switch]$Force)
+    if ($PSVersionTable.PSVersion.Major -lt 7) {
+        Write-Warning "Profile modules require PowerShell 7 or newer."
+        return
     }
-    try {
+    foreach ($moduleName in @("CompletionPredictor", "PSReadLine")) {
+        $params = @{ Name = $moduleName; Scope = "CurrentUser"; AllowClobber = $true; SkipPublisherCheck = $true }
+        if ($Force) { $params.Force = $true }
+        if (-not (Get-Module -ListAvailable -Name $moduleName)) { Install-Module @params }
         Import-Module $moduleName -ErrorAction Stop
-    }
-    catch {
-        Write-Warning "Failed to import ${moduleName}: $_"
     }
 }
 
 function Initialize-Modules {
-    $modules = @(
-        "CompletionPredictor"
-        "PsReadLine"
-    )
-    
-    if ($PSVersionTable.PSVersion.Major -lt 7) {
-        Write-Warning "Module relat only support for Powershell with major version >= 7."
-        return
-    }
+    if ($PSVersionTable.PSVersion.Major -lt 7) { return }
 
-    foreach ($module in $modules) {
-        Add-OwnModule -moduleName $module
-    }
+    $completionAvailable = [bool](Get-Module -Name "CompletionPredictor" -ErrorAction SilentlyContinue)
+    if (-not $completionAvailable) { $completionAvailable = Add-OwnModule -moduleName "CompletionPredictor" -Optional }
 
-    # == PSReadLine ==
+    $psReadLineAvailable = [bool](Get-Module -Name "PSReadLine" -ErrorAction SilentlyContinue)
+    if (-not $psReadLineAvailable) { $psReadLineAvailable = Add-OwnModule -moduleName "PSReadLine" -Optional }
+    if (-not $psReadLineAvailable) { return }
+
     $historyFilter = {
         Param([string]$line)
-        if ($line -like " *") {
-            return $false
-        }
-
+        if ($line -like " *") { return $false }
         $ignores = @("user", "pass", "account", "apikey", "token")
-
-        foreach ($ignore in $ignores) {
-            if ($line -match $ignore) {
-                return $false
-            }
-        }
+        foreach ($ignore in $ignores) { if ($line -match $ignore) { return $false } }
         return $true
     }
 
@@ -71,24 +56,22 @@ function Initialize-Modules {
         HistoryNoDuplicates           = $true
         HistorySearchCursorMovesToEnd = $true
         MaximumHistoryCount           = 5000
-        PredictionSource              = "HistoryAndPlugin"
+        PredictionSource              = if ($completionAvailable) { "HistoryAndPlugin" } else { "History" }
         PredictionViewStyle           = "ListView"
         BellStyle                     = "None"
         Colors                        = @{
-            Command   = '#87CEEB'  # SkyBlue (pastel)
-            Parameter = '#98FB98'  # PaleGreen (pastel)
-            Operator  = '#FFB6C1'  # LightPink (pastel)
-            Variable  = '#DDA0DD'  # Plum (pastel)
-            String    = '#FFDAB9'  # PeachPuff (pastel)
-            Number    = '#B0E0E6'  # PowderBlue (pastel)
-            Type      = '#F0E68C'  # Khaki (pastel)
-            Comment   = '#D3D3D3'  # LightGray (pastel)
-            Keyword   = '#8367c7'  # Violet (pastel)
-            Error     = '#FF6347'  # Tomato (keeping it close to red for visibility)
-    
+            Command   = '#87CEEB'
+            Parameter = '#98FB98'
+            Operator  = '#FFB6C1'
+            Variable  = '#DDA0DD'
+            String    = '#FFDAB9'
+            Number    = '#B0E0E6'
+            Type      = '#F0E68C'
+            Comment   = '#D3D3D3'
+            Keyword   = '#8367c7'
+            Error     = '#FF6347'
         }
     }
-    
     Set-PSReadLineOption @PSReadLineOptions
 
     Set-PSReadLineKeyHandler -Key Tab -Function MenuComplete
@@ -103,7 +86,6 @@ function Initialize-Modules {
 
 function setup {
     [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
-
     Initialize-Modules
     Initialize-Env
 }
