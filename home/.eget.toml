@@ -1,0 +1,6 @@
+# Dir with '/'
+#
+[global]
+target = "~/.local/bin/"
+upgrade_only = true
+show_hash = true

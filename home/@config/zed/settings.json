@@ -1,0 +1,44 @@
+{{! Editing, saving and fonts }}
+{{#patch "line" prefix='"helix_mode":' insert_before='"theme":'}} true,{{/patch}}
+{{#patch "line" prefix='"relative_line_numbers":' insert_before='"theme":'}} "enabled",{{/patch}}
+{{#patch "line" prefix='"colorize_brackets":' insert_before='"theme":'}} true,{{/patch}}
+{{#patch "line" prefix='"auto_indent_on_paste":' insert_before='"theme":'}} true,{{/patch}}
+{{#patch "line" prefix='"use_on_type_format":' insert_before='"theme":'}} true,{{/patch}}
+{{#patch "line" prefix='"soft_wrap":' insert_before='"theme":'}} "editor_width",{{/patch}}
+{{#patch "line" prefix='"ui_font_family":' insert_before='"theme":'}} "Maple Mono",{{/patch}}
+{{#patch "line" prefix='"ui_font_size":' insert_before='"theme":'}} 16,{{/patch}}
+{{#patch "line" prefix='"buffer_font_family":' insert_before='"theme":'}} "Maple Mono NF",{{/patch}}
+{{#patch "line" prefix='"buffer_font_size":' insert_before='"theme":'}} 15,{{/patch}}
+{{#patch "line" prefix='"hard_tabs":' insert_before='"language_models":' after='{\n\t"disable_ai": false,\n' before='\t"languages": {'}} true,{{/patch}}
+{{#patch "line" prefix='"hard_tabs":' after='\t\t"Python": {\n' before='\t"lsp": {'}} false,{{/patch}}
+{{#patch "line" prefix='"milliseconds":' after='\t\t"after_delay": {\n' before='\t"cli_default_open_behavior": "existing_window",\n'}} 500,{{/patch}}
+
+{{! Themes, terminal and language tools }}
+{{#patch "line" prefix='"blinking":' after='\n\t"terminal": {\n' before='\t"theme": {'}} "on",{{/patch}}
+{{#patch "line" prefix='"font_family":' after='\n\t"terminal": {\n' before='\t"theme": {'}} "Maple Mono NF",{{/patch}}
+{{#patch "line" prefix='"dark":'}} "Catppuccin Mocha",{{/patch}}
+{{#patch "line" prefix='"light":'}} "One Light",{{/patch}}
+{{#patch "line" prefix='"mode":'}} "system",{{/patch}}
+{{#patch "line" prefix='"enabled":' after='\t\t\t\t\t"background": {\n' before='\t\t\t"settings": {'}} true,{{/patch}}
+{{#patch "line" prefix='"exportPdf":' insert_before='"preview.background.args":' after='\t\t\t"settings": {\n' before='\t"outline_panel": {'}} "onType",{{/patch}}
+{{#patch "line" prefix='"favorite_models":' insert_before='"tool_permissions":'}} [],{{/patch}}
+{{#patch "line" prefix='"model_parameters":' insert_before='"tool_permissions":'}} [],{{/patch}}
+{{#patch "line" prefix='"default":' after='\t\t\t\t"terminal": {\n' before='\t"agent_servers": {'}} "allow",{{/patch}}
+
+{{! File associations are maintained together. }}
+{{#patch "between" after='\t"file_types": {\n' before='\t},\n\t"git_panel": {'}}
+		"bat": ["*.bat.tmpl"],
+		"gitignore": [
+			"*chezmoiignore*",
+			"*chezmoiremove*",
+			"*gitignore*",
+			"*rgignore*",
+		],
+		"json": ["*.json.tmpl", ".*.json.tmpl"],
+		"lua": ["*.lua.tmpl"],
+		"powershell": ["*.ps1.tmpl"],
+		"shellscript": ["*.sh.tmpl"],
+		"toml": ["*.toml.tmpl", ".*.toml.tmpl"],
+		"yaml": ["*.ymal.tmpl", ".*.ymal.tmpl"],
+		"yml": ["*.yml.tmpl", ".*.yml.tmpl"],
+{{/patch}}

@@ -1,0 +1,45 @@
+schema = 1
+identity_file = '~/.config/tuckin/key.txt'
+recipients = ['age18jcln2kqlqwpfjhtp9dnxsq2dnd604m5akuv5kfnqt3kxyvcdu5qvytrtu']
+
+[[ignore]]
+paths = ['README.md', 'prepare/**', 'secrets/**']
+
+[[ignore]]
+platform = 'posix'
+paths = [
+  'home/@config/powershell/**',
+  'home/.config/scoop/**',
+  'home/.config/winspec/**',
+  'home/.wslconfig',
+  'home/AppData/**',
+]
+
+[[ignore]]
+tags = ['zed-remote']
+paths = ['home/@config/zed/settings.json']
+
+[[ignore]]
+platform = 'win'
+paths = ['home/@config/nix/**']
+
+[map.home]
+posix = 'dirs:home'
+win = 'dirs:home'
+
+[map.'home/@config/powershell']
+win = 'dirs:documents'
+
+[map.'home/@config/nix']
+linux = 'dirs:config/nix'
+posix = '.config/nix'
+
+[map.'home/@config/zed']
+win = 'dirs:config/Zed'
+linux = 'dirs:config/zed'
+posix = '.config/zed'
+
+[map.'home/@config/krita']
+win = 'AppData/Local'
+posix = 'dirs:config'
+macos = 'Library/Preferences'

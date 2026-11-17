@@ -1,0 +1,17 @@
+{{! Public settings. Other lines belong to Scoop. }}
+{{#patch "line" prefix=
+'"aria2-enabled":'
+ insert_before=
+'"virustotal_api_key":'
+}}  true,{{/patch}}
+{{#patch "line" prefix=
+'"scoop_branch":'
+ insert_before=
+'"virustotal_api_key":'
+}}  "master",{{/patch}}
+{{#patch "line" prefix=
+'"scoop_repo":'
+ insert_before=
+'"virustotal_api_key":'
+}}  "https://mirror.nju.edu.cn/git/scoop.git",{{/patch}}
+{{#patch "between" name="virustotal" after='\n    "virustotal_api_key":  "' before='"\r\n}'}}{{#seal}}YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBDaytjWE9GWDVXOFFRbUpvRWMvamxWemtVaTgvWmFHYms5cmN5bHUvckNjCjYxeWhwTG9pYytsOTZONCszbVVnTHFIalFFMEw2TGdHNnNMU0pJUXUvZWMKLT4gMzg7dS1ncmVhc2UgbyBqOXpHIzE2ClRlNG1IVGVsUWxJMUJ5Sm9WbEdsQ3VQdHdNYVg3RUV2UmJxanNUdlZaRkJzeFd0Rk8wM2VHQkRrVms5dEFYWQotLS0gN25CV0ppN2lQdUFMLzVoUnJCV2JFWWUyS2VTc2pMVUZwTENEQXZkMWNoZwoF3vWdFaDrvTQKxCdU7Ei2Vd3DUy2FpzGR804dVo6t1JLjnRa/BEMJ4sXrIJVYplGZ0dl2hsUK+hqnLzs02yNdWfnHqGKjHeX5QkMJZ3AJBfcSrEXHiB5WRC9XiYOkc9k={{/seal}}{{/patch}}

@@ -1,0 +1,137 @@
+// Zed keymap
+//
+// For information on binding keys, see the Zed
+// documentation: https://zed.dev/docs/key-bindings
+//
+// To see the default key bindings run `zed: open default keymap`
+// from the command palette.
+[
+	{
+		"bindings": {},
+	},
+	{
+		"context": "Dock || Editor && mode == full && (vim_mode==normal || vim_mode==helix_normal)",
+		"bindings": {
+			"ctrl-h": "workspace::ActivatePaneLeft",
+			"ctrl-l": "workspace::ActivatePaneRight",
+			"ctrl-k": "workspace::ActivatePaneUp",
+			"ctrl-j": "workspace::ActivatePaneDown",
+		},
+	},
+	{
+		"context": "Editor && mode == full",
+		"bindings": {
+			"alt-k": "editor::MoveLineUp",
+			"alt-j": "editor::MoveLineDown",
+			// disable
+			"ctrl-h": null,
+		},
+	},
+	{
+		"context": "Editor && mode==full && (vim_mode==normal || vim_mode==helix_normal)",
+		"bindings": {
+			// Code
+			"space c o": "outline::Toggle",
+			"space c f": "editor::Format",
+			"space c r": "editor::Rename",
+			"space c a": "editor::ToggleCodeActions",
+			// Search
+			"space s f": "buffer_search::Deploy",
+			"space s s": "pane::DeploySearch",
+			// File
+			"space f p": "workspace::CopyPath",
+			"space f e": "project_panel::ToggleFocus",
+			// Panel
+			"space k t": "terminal_panel::Toggle",
+			"space k p": "diagnostics::Deploy",
+			"space k P": "diagnostics::DeployCurrentFile",
+			"space k d": "debug_panel::ToggleFocus",
+			"space k a": "agent::ToggleFocus",
+			// Git
+			"space g g": "git_panel::ToggleFocus",
+			"space g c": "git::CheckoutBranch",
+			// Fold
+			"space z c": "editor::Fold",
+			"space z o": "editor::UnfoldLines",
+			"space z a": "editor::ToggleFold",
+			// Buffer
+			"shift-h": "pane::ActivatePreviousItem",
+			"shift-l": "pane::ActivateNextItem",
+			"[ b": "pane::ActivatePreviousItem",
+			"] b": "pane::ActivateNextItem",
+			"ctrl-w d": "pane::CloseAllItems",
+		},
+	},
+	{
+		"context": "Workspace",
+		"bindings": {
+			// Dock
+			"alt-b": "workspace::ToggleLeftDock",
+			"alt-B": "workspace::ToggleRightDock",
+			// resize
+			"ctrl-left": ["vim::ResizePaneLeft", "50"],
+			"ctrl-right": ["vim::ResizePaneRight", "50"],
+			"ctrl-up": ["vim::ResizePaneUp", "50"],
+			"ctrl-down": ["vim::ResizePaneDown", "50"],
+		},
+	},
+	// disable
+	{
+		"context": "Workspace",
+		"bindings": {
+			"ctrl-f": null,
+			"ctrl-shift-f": null,
+			"ctrl-/": null,
+		},
+	},
+	{
+		// netrw compatibility
+		"context": "ProjectPanel && not_editing",
+		"bindings": {
+			"ctrl-shift-c": "workspace::CopyPath",
+			"a": "project_panel::NewFile",
+			"A": "project_panel::NewDirectory",
+			"r": "project_panel::Rename",
+			"d": "project_panel::Trash",
+			"D": "project_panel::Delete",
+			"y": "project_panel::Copy",
+			"x": "project_panel::Cut",
+			"p": "project_panel::Paste",
+			"O": "project_panel::RevealInFileManager",
+		},
+	},
+	{
+		"context": "GitPanel && ChangesList",
+		"bindings": {
+			"space c": "git_panel::FocusEditor",
+		},
+	},
+	{
+		"context": "GitPanel && CommitEditor",
+		"bindings": {
+			"space c": "git_panel::FocusChanges",
+		},
+	},
+	{
+		"context": "DebugPanel",
+		"bindings": {
+			"ctrl-`": "debug_panel::Toggle",
+		},
+	},
+	{
+		"context": "Terminal",
+		"bindings": {
+			"ctrl-`": "terminal_panel::Toggle",
+			"alt-`": "terminal::ToggleViMode",
+			"alt-\\": "pane::SplitRight",
+			"alt-=": "pane::SplitDown",
+			"alt-n": "workspace::NewTerminal",
+			"alt-[": "pane::ActivatePreviousItem",
+			"alt-]": "pane::ActivateNextItem",
+			"alt-q": "pane::CloseActiveItem",
+			"ctrl-shift-c": "terminal::Copy",
+			"ctrl-shift-v": "terminal::Paste",
+		},
+	},
+]
+

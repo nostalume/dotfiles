@@ -1,0 +1,49 @@
+# == user ==
+[user]
+	name = nostalume
+	email = nostalucent@gmail.com
+[github]
+	user = nostalume
+[init]
+	defaultBranch = main
+
+# == Ease ==
+[core]
+editor = zed
+[fetch]
+	prune = true
+[alias]
+	st = "status"
+	br = "branch"
+	ch = "checkout"
+	cm = "commit"
+[color]
+	ui = auto
+
+# == Security ==
+# transfer/receive integrity
+[transfer]
+	fsckObjects = true
+[receive]
+	fsckObjects = true
+
+# == net ==
+[http]
+sslverify = false
+# credenence cache
+[credential]
+	helper = "!f() { if command -v git-credential-wincred >/dev/null 2>&1; then git-credential-wincred \"$@\"; fi; }; f"
+[credential "https://codeberg.org"]
+	provider = generic
+[credential "https://cnb.cool"]
+	provider = generic
+[credential "https://github.com"]
+	helper = 
+	helper = "!sh \"$HOME/.config/git/gh-credential.sh\""
+[credential "https://gist.github.com"]
+	helper = 
+	helper = "!sh \"$HOME/.config/git/gh-credential.sh\""
+[credential "https://gh-proxy.org"]
+	provider = generic
+[credential "https://gitee.com"]
+	provider = generic
