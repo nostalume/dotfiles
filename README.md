@@ -8,11 +8,9 @@ Dotfiles managed with [Tuckin](https://github.com/nostalume/tuckin).
 - **Linux:** Nix owns Linux pakcages.
 - **Tuckin:** owns runtime configuration and encrypted source rendering.
 
-## Before first install
+## Install Tuckin
 
-Tuckin will automatically manage your secret by `identity_file` and `recipients` field. If you want to copy my dotfiles, please remove `secrets/**` and my recipients, then use `tuckin init --key` to re-create a new key for your secrets. Anyone should keep their own secret identity!
-
-## First install
+If you want to use this dotfiles, please install `tuckin`, a home manager.
 
 ### Windows
 
@@ -21,7 +19,45 @@ Invoke-WebRequest -Uri 'https://raw.githubusercontent.com/nostalume/tuckin/main/
 powershell -NoProfile -ExecutionPolicy Bypass -File .\install.ps1
 ```
 
-Install WinSpec explicitly after configuration is applied, then preview and apply declarative system state:
+### Unix
+
+```bash
+sh -c "$(curl -fsLS 'https://raw.githubusercontent.com/nostalume/tuckin/main/install.sh')"
+```
+
+## Before first install
+
+Tuckin will automatically manage your secret by `identity_file` and `recipients` field. If you want to copy my dotfiles, please remove `secrets/**` and my recipients, then use `tuckin init --key` to re-create a new key for your secrets. Anyone should keep their own secret identity! For example, by password manager like `gopass`.
+
+### Secret
+
+## First install
+
+### Windows
+
+Apply `prepare/scoop.ps1` to install scoop:
+
+```powershell
+& prepare/scoop.ps1
+```
+
+### Linux
+
+Apply `prepare/nix.sh` to install `nix`:
+
+```bash
+& /prepare/nix.sh
+```
+
+### Footnote
+
+I use `gopass` to manage [secrets](https://github.com/nostalume/secret), please install it and mount the identity file to apply state.
+
+## Package and State
+
+### Windows
+
+Install `winspec` after configuration is applied, then preview and apply declarative system state:
 
 ```powershell
 scoop install winspec
@@ -38,11 +74,7 @@ winspec run installPackages -Spec "$HOME/.config/winspec/.winspec.ps1"
 
 ### Linux
 
-```bash
-sh -c "$(curl -fsLS 'https://raw.githubusercontent.com/nostalume/tuckin/main/install.sh')"
-```
-
-Package installation is by `nix`:
+Install packages by `nix`:
 
 ```bash
 nix profile install ~/.config/nix#default
